@@ -51,18 +51,29 @@
     .shell { width: min(1220px, calc(100% - 72px)); margin: 0 auto; padding-bottom: 82px; }
     body.has-player .shell { padding-bottom: 174px; }
 
-    /* HEADER */
-    .topbar { min-height: 98px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); }
-    .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-    .brand-badge { width: 51px; height: 51px; border: 1px solid var(--amber-dark); border-radius: 50%; display: grid; place-items: center; color: var(--amber); background: linear-gradient(145deg, #363327, #24261f); box-shadow: inset 0 0 0 5px rgba(223,180,114,.035); }
-    .brand-name { display: block; font-size: 22px; font-weight: 800; letter-spacing: .19em; line-height: 1; }
-    .brand-sub { display: block; margin-top: 7px; font: 10px var(--mono); color: var(--muted); letter-spacing: .17em; text-transform: uppercase; }
-    .right-meta { display: flex; align-items: center; gap: 22px; }
-    .api-status { display: flex; align-items: center; gap: 9px; text-transform: uppercase; letter-spacing: .11em; font: 11px var(--mono); color: var(--text-dim); }
-    .dot { width: 7px; height: 7px; background: var(--amber); border-radius: 50%; box-shadow: 0 0 0 4px rgba(223,180,114,.08); }
-    .api-status[data-status="online"] .dot { background: var(--green); box-shadow: 0 0 0 4px rgba(163,185,147,.1); }
-    .api-status[data-status="offline"] .dot { background: var(--red); box-shadow: 0 0 0 4px rgba(200,119,103,.1); }
-    .top-clock { border-left: 1px solid var(--line); padding-left: 22px; font: 12px var(--mono); letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    /* Statusanzeige auf der oberen Holzleiste des Radios. */
+    .api-status {
+      position: absolute; z-index: 3; top: 5%; left: 50%;
+      transform: translate(-50%, -50%);
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: clamp(1px, .3vw, 4px) clamp(5px, .85vw, 11px);
+      border: 1px solid rgba(217, 168, 99, .4);
+      border-radius: 30px;
+      background: rgba(29, 17, 13, .84);
+      box-shadow: 0 1px 7px rgba(0, 0, 0, .35);
+      color: #f3d7aa; text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
+      font: clamp(6px, 1.05vw, 11px) var(--mono);
+      line-height: 1.1; letter-spacing: .07em; text-transform: uppercase;
+      white-space: nowrap; pointer-events: none;
+    }
+    .api-status .dot {
+      position: absolute; right: calc(100% + clamp(4px, .7vw, 8px));
+      width: clamp(3px, .65vw, 7px); height: clamp(3px, .65vw, 7px);
+      border-radius: 50%; background: var(--amber);
+      box-shadow: 0 0 0 3px rgba(223,180,114,.1);
+    }
+    .api-status[data-status="online"] .dot { background: var(--green); box-shadow: 0 0 0 3px rgba(163,185,147,.14); }
+    .api-status[data-status="offline"] .dot { background: var(--red); box-shadow: 0 0 0 3px rgba(200,119,103,.14); }
 
     /* Die beiden physisch abgebildeten Drehknöpfe dienen als Navigation. */
     .hero { display: flex; justify-content: center; align-items: center; margin-top: 25px; }
@@ -90,9 +101,7 @@
       box-shadow: 0 0 17px rgba(232, 168, 76, .27), inset 0 0 12px rgba(232, 168, 76, .22);
     }
     .dial-glyph {
-      width: 80%; 
-      /* min-width: 23px; max-width: 44px;  */
-      aspect-ratio: 1;
+      width: 80%; aspect-ratio: 1;
       display: grid; place-items: center; border-radius: 50%;
       background: radial-gradient(circle at 35% 26%, #654f34, #292319 75%);
       border: 1px solid rgba(245, 205, 145, .65);
@@ -111,8 +120,8 @@
     }
     [hidden] { display:none !important; }
     .section { padding-top: 31px; }
-    .section-head { display:flex; align-items:end; justify-content:space-between; gap:16px; margin-bottom:22px; }
-    .section-title { margin:0; font: 32px Georgia,serif; line-height:1.2; font-weight:400; letter-spacing:-.02em; }
+    .section-head { margin-bottom:22px; }
+    .section-title { margin:0; font: 32px Georgia,serif; line-height:1.2; font-weight:400; letter-spacing:-.02em; text-align:center; }
     .section-kicker { display:block; font: 10px var(--mono); color: var(--amber); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 8px; }
     .section-caption { font: 11px var(--mono); color: var(--muted); letter-spacing:.05em; text-align: right; }
 
@@ -230,12 +239,6 @@
     }
     @media (max-width: 730px) {
       .shell { width:calc(100% - 34px); }
-      .topbar { min-height:81px; }
-      .brand-badge { width:43px; height:43px; }
-      .brand-name { font-size:17px; }
-      .brand-sub { font-size:8px; }
-      .top-clock { display:none; }
-      .api-status { font-size:9px; }
       .section { padding-top:25px; }
       .section-title { font-size:27px; }
       .station-grid { grid-template-columns:1fr; }
@@ -258,10 +261,6 @@
       .footer { flex-direction:column; gap:6px; }
     }
     @media (max-width:420px) {
-      .brand { gap:9px; }
-      .brand-name { font-size:15px; }
-      .brand-sub { letter-spacing:.06em; }
-      .api-status { gap:6px; letter-spacing:0; }
       .section-caption { display:none; }
       .filter-grid { grid-template-columns:1fr 1fr; gap:10px; }
       .filter-grid .field:nth-child(1),.filter-grid .field:nth-child(2) { grid-column:span 2; }
@@ -280,11 +279,16 @@
 </head>
 <body>
   <div class="shell">
-
     <main id="top">
       <section class="hero" aria-label="Historisches Radio mit Drehknopf-Navigation">
         <div class="hero-radio">
         <img class="hero-image" src="radio.webp">
+
+        <div class="api-status" id="api-status" data-status="idle" role="status" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span><span id="api-status-text">Signal bereit</span>
+        </div>
+
+
         <nav class="dial-nav" role="tablist" aria-label="Radio-Navigation">
           <button class="dial-btn dial-left" id="tab-favorites" type="button" role="tab" aria-controls="panel-favorites" aria-selected="true" aria-label="Favoriten" title="Favoriten">
             <span class="dial-glyph" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0l-1 1-1-1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg></span>
@@ -298,7 +302,7 @@
       </section>
 
       <section id="panel-favorites" class="section" role="tabpanel" aria-labelledby="tab-favorites">
-        <div class="section-head"><div><span class="section-kicker">01 / DEINE SAMMLUNG</span><h2 class="section-title">Deine Favoriten</h2></div><div class="section-caption">LOKAL GESPEICHERT · INDEXEDDB</div></div>
+        <div class="section-head"><h2 class="section-title">Deine Favoriten</h2></div>
         <div id="favorites-empty" class="empty-state">
           <div class="empty-visual" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M12 19v-8m-4 8h8M12 7v.01M8.1 3.7a6 6 0 0 0 0 8.6m7.8-8.6a6 6 0 0 1 0 8.6M4.7.5a11 11 0 0 0 0 15.3M19.3.5a11 11 0 0 1 0 15.3"/></svg></div>
           <h3>Hier ist noch Sendepause.</h3>
@@ -310,7 +314,7 @@
       </section>
 
       <section id="panel-discover" class="section" role="tabpanel" aria-labelledby="tab-discover" hidden>
-        <div class="section-head"><div><span class="section-kicker">02 / DER ÄTHER WARTET</span><h2 class="section-title">Sender entdecken</h2></div><div class="section-caption">POWERED BY RADIO BROWSER</div></div>
+        <div class="section-head"><h2 class="section-title">Sender entdecken</h2></div>
         <form id="search-form" class="filter-panel" autocomplete="off">
           <div class="filter-top">
             <div class="field"><label for="search-name">Sendersuche</label><div class="field-control"><svg class="icon icon-sm" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.6"/><path d="m16.4 16.4 5 5"/></svg><input id="search-name" class="input search-input" type="search" maxlength="120" placeholder="Name eines Senders ..."></div></div>
@@ -416,6 +420,19 @@
       els.toast.classList.add('show');
       toastTimer = setTimeout(() => els.toast.classList.remove('show'), 4400);
     }
+    function formatElapsed(milliseconds) {
+      const total = Math.max(0, Math.floor(milliseconds / 1000));
+      const seconds = String(total % 60).padStart(2, '0');
+      const mins = Math.floor(total / 60);
+      if (mins >= 60) return `${Math.floor(mins / 60)}:${String(mins % 60).padStart(2,'0')}:${seconds}`;
+      return `${String(mins).padStart(2,'0')}:${seconds}`;
+    }
+    function updateElapsed() {
+      const duration = elapsedMs + (playingSince === null ? 0 : Date.now() - playingSince);
+      els.playerElapsed.textContent = formatElapsed(duration);
+    }
+    setInterval(updateElapsed, 1000);
+    updateElapsed();
 
     function normalizeStation(raw) {
       const name = String(raw?.name || 'Unbekannter Sender').trim() || 'Unbekannter Sender';
@@ -850,9 +867,9 @@
     function pauseStopwatch() {
       if (playingSince!==null) elapsedMs += Date.now()-playingSince;
       playingSince=null;
-      updateClock();
+      updateElapsed();
     }
-    function resetStopwatch() { elapsedMs=0; playingSince=null; updateClock(); }
+    function resetStopwatch() { elapsedMs=0; playingSince=null; updateElapsed(); }
     function closeHls() {
       if (audioHls) { try { audioHls.destroy(); } catch {} audioHls=null; }
     }
